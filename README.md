@@ -13,3 +13,11 @@ npm install @ledgerhq/hw-transport-node-hid
 npm install @ledgerhq/logs
 npm install ethers
 ```
+
+# Planned Features
+
+- Get addresses from custom derivation paths/private keys if you want to expose your seed
+- Allow users to send transcations from custom derivation paths and chain (can use Ledger)
+- Have tool for signing personal messages
+- Build in feature for sending transactions with u2f8 data.
+- More...
