@@ -11,7 +11,7 @@ let valueToSend;
 let currentGasCost;
 let currentMaxFee;
 let currentMaxPriority;
-let getFeeData;
+let gasLimit;
 const targetAddress = "0x4289eA7F182927557E3d06eBa5b49b6849a77CF2";
 
 const APIKey = "bV4BZip2EDoW9h7hnRCVzhsrVb1hptjD";
@@ -43,16 +43,12 @@ const main = async () => {
 
     console.log("Creating a transaction, signing with Ledger, then using Ethers provider to send the signed transaction.");
 
-    getFeeData = await provider.getFeeData()
+    await provider.getFeeData()
     .then((feeData) => {
         currentGasCost = BigNumber.from(feeData.gasPrice);
         currentMaxFee = feeData.maxFeePerGas;
         currentMaxPriority = feeData.maxPriorityFeePerGas;
     });
-
-    gwei = currentMaxFee.add(currentMaxPriority);
-    gas = gwei.mul(21000);
-    valueToSend = ledgerBalance.sub(gas);
 
     let tx = {
         type: 2,
@@ -65,7 +61,20 @@ const main = async () => {
         maxFeePerGas: currentMaxFee,
         maxPriorityFeePerGas: currentMaxPriority
     }
-    
+
+    let UTF8Tx = {
+        type: 2,
+        chainId: 5,
+        from: ethAddress,
+        to: targetAddress,
+        value: utils.hexlify(1),
+        data: utils.hexlify(utils.toUtf8Bytes("Test")),
+        nonce: await provider.getTransactionCount(ethAddress),
+        gasLimit: gasLimit,
+        maxFeePerGas: currentMaxFee,
+        maxPriorityFeePerGas: currentMaxPriority
+    }
+    /*
     const unsignedTx = utils.serializeTransaction(tx).substring(2);
     const signedTx = await appEth.signTransaction(derivationPath, unsignedTx, null);
     signedTx.r = "0x"+signedTx.r;
@@ -76,8 +85,42 @@ const main = async () => {
     await provider.sendTransaction(readyTx)
     .then(data => {
         console.log("Transaction hash:",data.hash);
+    })*/
+
+    await provider.estimateGas(UTF8Tx)
+    .then(unit => {
+        gasLimit = unit._hex;
+        console.log(gasLimit);
     })
+
+    UTF8Tx = {
+        type: 2,
+        chainId: 5,
+        from: ethAddress,
+        to: targetAddress,
+        value: utils.hexlify(1),
+        data: utils.hexlify(utils.toUtf8Bytes("Test")),
+        nonce: await provider.getTransactionCount(ethAddress),
+        gasLimit: gasLimit,
+        maxFeePerGas: currentMaxFee,
+        maxPriorityFeePerGas: currentMaxPriority
+    }
+
+    gwei = currentMaxFee.add(currentMaxPriority);
+    gas = gwei.mul(21064);
+    valueToSend = ledgerBalance.sub(gas);
     
+    const unsignedTx = utils.serializeTransaction(UTF8Tx).substring(2);
+    const signedTx = await appEth.signTransaction(derivationPath, unsignedTx, null);
+    signedTx.r = "0x"+signedTx.r;
+    signedTx.s = "0x"+signedTx.s;
+    signedTx.v = parseInt(signedTx.v);
+    signedTx.from = ethAddress;
+    const readyTx = utils.serializeTransaction(UTF8Tx, signedTx);
+    await provider.sendTransaction(readyTx)
+    .then(data => {
+        console.log("Transaction hash:",data.hash);
+    });
 }
 
 main();
