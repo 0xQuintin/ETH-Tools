@@ -11,6 +11,11 @@ To run the current avaliable Main.js you will need to install the following pack
 npm install @ledgerhq/hw-app-eth ethers @ledgerhq/hw-transport-node-hid @ledgerhq/logs
 ```
 
+# Working Features
+- Completely custom ETH derivation path address generation.
+- sending funds from custom derivation paths.
+- Sending UTF-8 data in transactions (sorta working).
+
 # Planned Features
 
 - Get addresses from custom derivation paths/private keys if you want to expose your seed
