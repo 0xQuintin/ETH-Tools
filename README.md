@@ -14,7 +14,7 @@ npm install @ledgerhq/hw-app-eth ethers @ledgerhq/hw-transport-node-hid @ledgerh
 # Working Features
 - Completely custom ETH derivation path address generation.
 - sending funds from custom derivation paths.
-- Sending UTF-8 data in transactions (sorta working).
+- Sending UTF-8 data in transactions.
 
 # Planned Features
 
