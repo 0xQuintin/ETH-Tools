@@ -1,4 +1,4 @@
-# ETH-Tools
+# Equiped
 A Chrome extension that gives access to technical Ethereum tools. Compatible with Ledger devices.
 
 Currently heavily WIP, will add the actual extension here when it is in a better working state.
@@ -21,5 +21,5 @@ npm install @ledgerhq/hw-app-eth ethers @ledgerhq/hw-transport-node-hid @ledgerh
 - Get addresses from custom derivation paths/private keys if you want to expose your seed
 - Allow users to send transcations from custom derivation paths and chain (can use Ledger)
 - Have tool for signing personal messages
-- Build in feature for sending transactions with UTF-8 data.
+- Allow for sending private transactions with Flash Bots, this will allow you to hide your transactions from MEV.
 - More...
