@@ -1,4 +1,4 @@
-# Equiped
+# Eth-Tools
 A Chrome extension that gives access to technical Ethereum tools. Compatible with Ledger devices.
 
 Currently heavily WIP, will add the actual extension here when it is in a better working state.
