@@ -14,7 +14,6 @@ const main = async () => {
     await connectLedger();
     connectedAddress = ledgerAddress;
     signer = ledgerSigner;
-    console.log(connectedAddress);
 
     sendUTF(signer, connectedAddress, toAddress, 1, "hello");
 
